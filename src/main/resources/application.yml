@@ -1,0 +1,94 @@
+server:
+  port: 8024
+  tomcat.uri-encoding: UTF-8
+
+
+spring:
+
+  cache:
+    #ehcache配置文件路径
+    ehcache:
+      config: classpath:ehcache.xml
+
+  servlet:
+   multipart:
+    max-file-size: 500MB
+    max-request-size: 500MB
+
+  aop:
+    proxy-target-class: true
+    auto: true
+
+  #日志环境
+  profiles:
+    active: dev
+
+  datasource:
+    druid:
+      # 数据库 1 推荐 IntegratedSecurity=True;
+      db1:
+        url: jdbc:sqlserver://10.40.50.36:1433;DatabaseName=EmployeeReferral
+        username: ERM
+        password: ERM@2020
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        initial-size: 5
+        max-active: 20
+        min-idle: 5
+
+      db2:
+        url: jdbc:sqlserver://10.40.50.107:1433;DatabaseName=WX_OA_CQ
+        username: stan
+        password: stan.511507
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        initial-size: 5
+        max-active: 20
+        min-idle: 5
+
+      db3:
+        url: jdbc:sqlserver://10.40.50.107:1433;DatabaseName=WX_OA_KS
+        username: stan
+        password: stan.511507
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        initial-size: 5
+        max-active: 20
+        min-idle: 5
+
+  mybatis:
+    type-aliases-package: com.primax.model
+    mapper-locations: classpath:/mybatis/mapping/*.xml
+    configuration:
+      callSettersOnNulls: true
+      map-underscore-to-camel-case: true
+      default-fetch-size: 100
+      default-statement-timeout: 3000
+
+  mybatis-plus:
+    # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+    # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+    mapper-locations: classpath:/mybatis/mapping/*.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    typeAliasesPackage: com.primax.model
+    global-config:
+      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+      id-type: 0
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: 2
+      #驼峰下划线转换
+      db-column-underline: true
+      #刷新mapper 调试神器
+      refresh-mapper: true
+      #数据库大写下划线转换
+      capital-mode: true
+      # Sequence序列接口实现类配置
+      #  key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+      #逻辑删除配置（下面3个配置）
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+      #自定义填充策略接口实现
+      #  meta-object-handler: com.baomidou.springboot.MyMetaObjectHandler
+    configuration:
+      #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+      map-underscore-to-camel-case: true
+      cache-enabled: false
+      jdbc-type-for-null: 'null'
